@@ -52,18 +52,12 @@ static int	ft_gnl_engine(char *buf, char **line)
 	return (1);
 }
 
-int	get_next_line(int fd, char **line)
+static int	ft_gnl_v3(int fd, char **line, char *buf)
 {
-	static char		buf[BUFFER_SIZE + 1];
 	int				read_size;
 	int				status;
 
 	read_size = 1;
-	if (fd < 0 || fd > 256 || BUFFER_SIZE <= 0 || !line)
-		return (-1);
-	*line = ft_gnl_calloc(1, sizeof(*line));
-	if (!*line)
-		return (-1);
 	while (read_size >= 0)
 	{
 		if (read_size == 0)
@@ -79,4 +73,19 @@ int	get_next_line(int fd, char **line)
 		if (status < 0)
 			return (-1);
 	}
+	return (-1);
+}
+
+int	get_next_line(int fd, char **line)
+{
+	static char		buf[BUFFER_SIZE + 1];
+	int				check;
+
+	if (fd < 0 || fd > 256 || BUFFER_SIZE <= 0 || !line)
+		return (-1);
+	*line = ft_gnl_calloc(1, sizeof(*line));
+	if (!*line)
+		return (-1);
+	check = ft_gnl_v3(fd, line, buf);
+	return (check);
 }

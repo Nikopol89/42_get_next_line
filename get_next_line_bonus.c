@@ -60,9 +60,12 @@ int	ft_gnl_init(int fd, char **buf, char **line)
 {
 	if (fd < 0 || fd > 256 || BUFFER_SIZE <= 0 || !line)
 		return (0);
-	buf[fd] = ft_gnl_calloc(BUFFER_SIZE + 1, sizeof(**buf));
-	if (!buf[fd] && !buf[fd])
-		return (0);
+	if (!buf[fd])
+	{
+		buf[fd] = ft_gnl_calloc(BUFFER_SIZE + 1, sizeof(**buf));
+		if (!buf[fd])
+			return (0);
+	}
 	*line = ft_gnl_calloc(1, sizeof(*line));
 	if (!*line)
 		return (0);
